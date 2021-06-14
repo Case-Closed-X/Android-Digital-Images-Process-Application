@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">数字图像处理</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="reset">重置</string>
+
+    <string name="channel_name">com.app.digital</string>
+    <string name="channel_description">显示数字图像处理APP的通知</string>
+
+    <string name="functionBeauty">美颜</string>
+    <string name="functionBeautyContent">自动美化皮肤</string>
+    <string name="functionOpen">开运算</string>
+    <string name="functionOpenContent">腐蚀后膨胀，清除噪点</string>
+    <string name="functionBilateral">双边滤波</string>
+    <string name="functionBilateralContent">保留边缘并去除噪声</string>
+    <string name="functionMedian">中值滤波</string>
+    <string name="functionMedianContent">消除孤立的噪声点</string>
+    <string name="functionGraying">灰度</string>
+    <string name="functionGrayingContent">图像灰度并归一化</string>
+</resources>
