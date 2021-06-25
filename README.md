@@ -1,5 +1,5 @@
 # Android Digital Images Process Application
- 此项目为我的数字图像处理课程作业，于2021.6.14开源第一版。
+ 此项目为我的数字图像处理课程作业，于2021.6.14端午节开源第一版。
  
  项目为Android平台原生开发，采用OpenCV库、Java语言。
  
