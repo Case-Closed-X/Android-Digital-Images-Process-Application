@@ -5,6 +5,6 @@
  
  项目中使用的图像来源于巫师之昆特牌（强烈安利）、名侦探柯南（强烈安利），如有侵权，请联系我删除。
  
-🌟我的邮箱：CaseClosedX@outlook.com，不常看邮件。
+🌟我的邮箱：CaseClosedX@outlook.com，欢迎来信。
 
 🌟效果图
