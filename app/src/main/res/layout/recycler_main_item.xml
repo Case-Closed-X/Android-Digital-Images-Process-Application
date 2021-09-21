@@ -14,7 +14,7 @@
     -->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewAbout"
         android:layout_width="0dp"
         android:layout_height="400dp"
 
@@ -46,7 +46,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/sera" />
+                app:srcCompat="@drawable/sera_origin" />
 
             <TextView
                 android:id="@+id/CardTextTitle"
@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/CardImage" />
 
             <TextView
-                android:id="@+id/CardTextContent"
+                android:id="@+id/CardTextVersion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

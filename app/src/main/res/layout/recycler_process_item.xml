@@ -13,13 +13,12 @@
     -->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewAbout"
         android:layout_width="100dp"
         android:layout_height="120dp"
 
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/background_gray"
         app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/sera" />
+                app:srcCompat="@drawable/sera_origin" />
 
             <TextView
                 android:id="@+id/CardTextTitle"

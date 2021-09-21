@@ -15,5 +15,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <!-- 设置小白条背景色为透明，如果Activity内使用了android:fitsSystemWindows="true"属性则失效 -->
         <item name="android:windowBackground">@color/black</item> <!--设置启动、全局背景颜色-->
+        <item name="colorControlHighlight">@color/white_10percent</item>
+        <!--更改水波纹效果颜色-->
     </style>
 </resources>

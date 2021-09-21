@@ -25,16 +25,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMain"
+    <com.x.digital.OverScrollLayout
+        android:id="@+id/overScrollLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
-        android:overScrollMode="never"
-        android:scrollbars="none"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewMain" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewMain">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+    </com.x.digital.OverScrollLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

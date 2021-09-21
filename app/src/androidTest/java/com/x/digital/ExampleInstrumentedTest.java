@@ -1,4 +1,4 @@
-package com.app.digital;
+package com.x.digital;
 
 import android.content.Context;
 

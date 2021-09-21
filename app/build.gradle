@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.app.digital"
+        applicationId "com.x.digital"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

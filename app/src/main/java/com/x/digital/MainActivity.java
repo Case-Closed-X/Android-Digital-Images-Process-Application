@@ -1,5 +1,9 @@
-package com.app.digital;
+package com.x.digital;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,7 +26,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.digital.databinding.ActivityMainBinding;
+import com.x.digital.databinding.ActivityMainBinding;
 
 import org.opencv.android.OpenCVLoader;
 
@@ -46,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        OpenCVLoader.initDebug();//OpenCV初始化后才能使用Mat等对象
+        binding.textViewMain.setOnClickListener(v -> {
+            intent = new Intent(this,AboutActivity.class);
+            startActivity(intent);
+        });
+
+        OpenCVLoader.initDebug();//OpenCV初始化后才能使用Mat等类
 
         mainRecycleView = binding.recyclerViewMain;
         //初始化数据
@@ -59,32 +69,31 @@ public class MainActivity extends AppCompatActivity {
         mainRecycleView.setAdapter(mainRecycleViewAdapter);
 
         mainRecycleViewAdapter.setOnItemClickListener((view, position) -> {
+            /*intent = new Intent(this, ProcessActivity.class);
             switch (position + 1) {
-                case 1:
-                    intent = new Intent(this,ProcessActivity.class);
-                    intent.putExtra("function",1);
+                case Type.BEAUTY:
+                    intent.putExtra("function", Type.BEAUTY);
                     break;
-                case 2:
-                    intent = new Intent(this,ProcessActivity.class);
-                    intent.putExtra("function",2);
+                case Type.FIX:
+                    intent.putExtra("function", Type.FIX);
                     break;
-                case 3:
-                    intent = new Intent(this,ProcessActivity.class);
-                    intent.putExtra("function",3);
+                case Type.BILATERAL:
+                    intent.putExtra("function", Type.BILATERAL);
                     break;
-                case 4:
-                    intent = new Intent(this,ProcessActivity.class);
-                    intent.putExtra("function",4);
+                case Type.MEDIAN:
+                    intent.putExtra("function", Type.MEDIAN);
                     break;
-                case 5:
-                    intent = new Intent(this,ProcessActivity.class);
-                    intent.putExtra("function",5);
+                case Type.GRAY:
+                    intent.putExtra("function", Type.GRAY);
+                    break;
+                default:
+                    intent = new Intent(this, AboutActivity.class);
                     break;
             }
-            startActivity(intent);
+            startActivity(intent);*/
         });
 
-        mainRecycleViewAdapter.setOnLongClickListener((view, position) -> {
+        /*mainRecycleViewAdapter.setOnLongClickListener((view, position) -> {
             switch (position + 1) {
                 case 1:
                     break;
@@ -96,11 +105,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 5:
                     break;
+                case 6:
+                    break;
             }
-        });
+        });*/
 
         //一定一定要先创建ChannelID
-        createNotificationChannel();
+        createNotificationChannel();//调用创建CHANNEL_ID方法
         Intent intentNotify = new Intent(this, ProcessActivity.class);
         intentNotify.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// | Intent.FLAG_ACTIVITY_CLEAR_TASK
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intentNotify, 0);
@@ -122,23 +133,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData(List<MainItem> mainItems) {
         mainItems.add(
-                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.dog), getString(R.string.functionBeauty),  getString(R.string.functionBeautyContent))
+                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.dog), getString(R.string.functionBeauty), getString(R.string.functionBeautyContent))
         );
 
         mainItems.add(
-                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.awalak), getString(R.string.functionOpen),  getString(R.string.functionOpenContent))
+                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.awalak), getString(R.string.functionFix), getString(R.string.functionFixContent))
         );
 
         mainItems.add(
-                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.dragon), getString(R.string.functionBilateral),  getString(R.string.functionBilateralContent))
+                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.dragon), getString(R.string.functionBilateral), getString(R.string.functionBilateralContent))
         );
 
         mainItems.add(
-                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.roach), getString(R.string.functionMedian),  getString(R.string.functionMedianContent))
+                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.roach), getString(R.string.functionMedian), getString(R.string.functionMedianContent))
         );
 
         mainItems.add(
-                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.sera2), getString(R.string.functionGraying),  getString(R.string.functionGrayingContent))
+                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.sera), getString(R.string.functionGraying), getString(R.string.functionGrayingContent))
+        );
+
+        mainItems.add(
+                new MainItem(BitmapFactory.decodeResource(getResources(), R.drawable.sera_origin), getString(R.string.about), getString(R.string.aboutContent))
         );
         /*先初始化适配器后才能用适配器的方法添加数据
         mainRecycleViewAdapter.addData(
@@ -158,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         );*/
     }
 
-    private void createNotificationChannel() {
+    private void createNotificationChannel() {//谷歌文档中的创建CHANNEL_ID方法
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -181,15 +196,20 @@ class MainRecycleViewAdapter extends RecyclerView.Adapter<MainRecycleViewAdapter
     private final List<MainItem> mList;//数据源
 
     private OnItemClickListener onItemClickListener;//点击监听器
-    private OnLongClickListener onLongClickListener;//长按监听器
+    //private OnLongClickListener onLongClickListener;//长按监听器
+    private OnItemTouchListener onItemTouchListener;
 
     //设置点击监听
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setOnLongClickListener(OnLongClickListener onLongClickListener){
+    /*public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
         this.onLongClickListener = onLongClickListener;
+    }*/
+
+    public void setOnItemTouchListener(OnItemTouchListener onItemTouchListener) {
+        this.onItemTouchListener = onItemTouchListener;
     }
 
     //自定义点击监听接口
@@ -197,11 +217,16 @@ class MainRecycleViewAdapter extends RecyclerView.Adapter<MainRecycleViewAdapter
         void onItemClick(View view, int position);
     }
 
-    public interface OnLongClickListener {
+    /*public interface OnLongClickListener {
         void onLongClick(View view, int position);
+    }*/
+
+    public interface OnItemTouchListener {
+        void onItemTouch(View view, int position);
     }
 
     //通过方法提供的ViewHolder，将数据绑定到ViewHolder中
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
@@ -216,12 +241,13 @@ class MainRecycleViewAdapter extends RecyclerView.Adapter<MainRecycleViewAdapter
             }
         });
 
-        holder.itemView.setOnLongClickListener(v -> {
+        /*holder.itemView.setOnLongClickListener(v -> {
             if (onLongClickListener != null) {
                 onLongClickListener.onLongClick(v, holder.getAdapterPosition());
             }
-            return false;
-        });
+            return false;//return true;
+        });*/
+
     }
 
     MainRecycleViewAdapter(List<MainItem> list) {
@@ -229,13 +255,91 @@ class MainRecycleViewAdapter extends RecyclerView.Adapter<MainRecycleViewAdapter
     }
 
     //创建ViewHolder并返回，后续item布局里控件都是从ViewHolder中取出，即加载布局
+    @SuppressLint("ClickableViewAccessibility")
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //将自定义的item布局转换为View
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_main_item, parent, false);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        viewHolder.itemView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(150).start();
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150).start();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    Intent intent = new Intent(parent.getContext(), ProcessActivity.class);
+                    int position = viewHolder.getAdapterPosition();
+                    switch (position + 1) {
+                        case Type.BEAUTY:
+                            intent.putExtra("function", Type.BEAUTY);
+                            break;
+                        case Type.FIX:
+                            intent.putExtra("function", Type.FIX);
+                            break;
+                        case Type.BILATERAL:
+                            intent.putExtra("function", Type.BILATERAL);
+                            break;
+                        case Type.MEDIAN:
+                            intent.putExtra("function", Type.MEDIAN);
+                            break;
+                        case Type.GRAY:
+                            intent.putExtra("function", Type.GRAY);
+                            break;
+                        default:
+                            intent = new Intent(parent.getContext(), AboutActivity.class);
+                            break;
+                    }
+
+
+                    //v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150).start();
+
+                    ObjectAnimator scaleX = ObjectAnimator.ofFloat(v, "scaleX", 1f);
+                    ObjectAnimator scaleY = ObjectAnimator.ofFloat(v, "scaleY", 1f);
+
+                    AnimatorSet animSet = new AnimatorSet();
+                    animSet.play(scaleX).with(scaleY);
+                    animSet.setDuration(150);
+                    animSet.start();
+
+                    Intent finalIntent = intent;
+                    animSet.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            parent.getContext().startActivity(finalIntent);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+
+                    break;
+            }
+            if (onItemTouchListener != null) {
+                onItemTouchListener.onItemTouch(v, viewHolder.getAdapterPosition());
+            }
+            //v.onTouchEvent(event);
+            return true;
+        });
         //将view传递给我们自定义的ViewHolder，即返回这个ViewHolder实体
-        return new ViewHolder(view);
+        return viewHolder;
     }
 
     //获取数据源总的条数
@@ -255,7 +359,7 @@ class MainRecycleViewAdapter extends RecyclerView.Adapter<MainRecycleViewAdapter
             super(itemView);
             CardImageView = itemView.findViewById(R.id.CardImage);
             CardTextTitleView = itemView.findViewById(R.id.CardTextTitle);
-            CardTextContentView = itemView.findViewById(R.id.CardTextContent);
+            CardTextContentView = itemView.findViewById(R.id.CardTextVersion);
         }
     }
 

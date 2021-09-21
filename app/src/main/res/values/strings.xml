@@ -4,13 +4,23 @@
     <string name="save">保存</string>
     <string name="reset">重置</string>
 
+    <string name="original">原图</string>
+    <string name="digital">0</string>
+
+    <string name="about">关于</string>
+    <string name="aboutContent">作者Github与Outlook邮箱</string>
+    <string name="about_version">Version 1.0</string>
+    <string name="about_email">Outlook</string>
+    <string name="about_github">Github</string>
+    <string name="about_opencv">OpenCV</string>
+
     <string name="channel_name">com.app.digital</string>
     <string name="channel_description">显示数字图像处理APP的通知</string>
 
     <string name="functionBeauty">美颜</string>
     <string name="functionBeautyContent">自动美化皮肤</string>
-    <string name="functionOpen">开运算</string>
-    <string name="functionOpenContent">腐蚀后膨胀，清除噪点</string>
+    <string name="functionFix">图像修复</string>
+    <string name="functionFixContent">去除划痕、水印、日期等</string>
     <string name="functionBilateral">双边滤波</string>
     <string name="functionBilateralContent">保留边缘并去除噪声</string>
     <string name="functionMedian">中值滤波</string>

@@ -42,14 +42,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
 
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:contentDescription="@string/app_name"
         android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewProcess"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonReset" />
@@ -62,7 +62,10 @@
         android:layout_marginBottom="40dp"
 
         android:overScrollMode="never"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:scrollbars="none"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -77,5 +80,31 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:max="10"
+        android:progress="0"
+        android:progressBackgroundTint="@color/teal_200"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewProcess"
+        app:layout_constraintEnd_toStartOf="@+id/textViewDigital"
+        app:layout_constraintStart_toStartOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textViewDigital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/digital"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
