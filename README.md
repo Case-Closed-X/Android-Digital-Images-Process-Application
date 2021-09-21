@@ -8,3 +8,9 @@
 🌟我的邮箱：CaseClosedX@outlook.com。
 
 🌟效果图
+
+<div style="float:left;">
+<img src="https://github.com/Case-Closed-X/Android-Digital-Images-Process-Application/blob/05d12c442a0408d3431d887c27a95e1666794a01/images/main.jpg" width="270px" height="600px" />
+<img src="https://github.com/Case-Closed-X/Android-Digital-Images-Process-Application/blob/05d12c442a0408d3431d887c27a95e1666794a01/images/about.jpg" width="270px" height="600px" />
+<img src="https://github.com/Case-Closed-X/Android-Digital-Images-Process-Application/blob/05d12c442a0408d3431d887c27a95e1666794a01/images/process.jpg" width="270px" height="600px" />
+ </div>
