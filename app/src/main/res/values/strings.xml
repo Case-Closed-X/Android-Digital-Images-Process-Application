@@ -17,8 +17,8 @@
     <string name="channel_name">com.app.digital</string>
     <string name="channel_description">显示数字图像处理APP的通知</string>
 
-    <string name="functionBeauty">美颜</string>
-    <string name="functionBeautyContent">自动美化皮肤</string>
+    <string name="functionBeauty">整体优化</string>
+    <string name="functionBeautyContent">自动优化图像效果</string>
     <string name="functionFix">图像修复</string>
     <string name="functionFixContent">去除划痕、水印、日期等</string>
     <string name="functionBilateral">双边滤波</string>
