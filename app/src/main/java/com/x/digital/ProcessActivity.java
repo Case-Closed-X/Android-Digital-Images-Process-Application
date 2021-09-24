@@ -245,12 +245,13 @@ public class ProcessActivity extends AppCompatActivity {
         thread = new Thread(() -> {
             isRunning = false;
                 //于子线程中处理图像，避免卡顿
+            synchronized (this) {//加锁synchronized解决了图像修复函数总显示上一幅图像的陈年大bug
                 Beauty();
                 Fix();
                 Bilateral();
                 Median();
                 Gray();
-
+            }
 
             this.runOnUiThread(new Runnable() {
                 @Override
@@ -261,7 +262,7 @@ public class ProcessActivity extends AppCompatActivity {
                         processRecycleView.smoothScrollToPosition(function - 1);//带动画的移动滚动条操作
                         processRecycleView.postDelayed(() ->
                                         processRecycleView.findViewHolderForAdapterPosition(function - 1).itemView.performClick()
-                                , 500);//延迟500毫秒后，再进行模拟点击操作，避免crash
+                                , 500);//延迟500毫秒后，再进行模拟点击操作，避免crash（暂未找到更好的替代方法）
                     } else {//function==Type.ORIGINAL，从通知栏进的或者点击重置按钮后默认显示原图
                         showOriginal();
                     }
