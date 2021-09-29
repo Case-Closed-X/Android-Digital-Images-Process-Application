@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -430,25 +430,48 @@ public class ProcessActivity extends AppCompatActivity {
         Utils.matToBitmap(matFilter, bitmap1Beauty);
     }
 
+    public static Bitmap readBitmapFromResource(Resources resources, int resourcesId, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(resources, resourcesId, options);
+        float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
+        int inSampleSize = 1;
+
+        if (srcHeight > height || srcWidth > width) {
+            if (srcWidth > srcHeight) {
+                inSampleSize = Math.round(srcHeight / height);
+            } else {
+                inSampleSize = Math.round(srcWidth / width);
+            }
+        }
+
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = inSampleSize;
+
+        return BitmapFactory.decodeResource(resources, resourcesId, options);
+    }
+
     private void initData(List<ProcessItem> processItems) {
         processItems.add(
-                new ProcessItem(BitmapFactory.decodeResource(getResources(), R.drawable.dog), getString(R.string.functionBeauty))
+                new ProcessItem(readBitmapFromResource(getResources(), R.drawable.dog,1000,1000)
+                        , getString(R.string.functionBeauty))
         );
 
         processItems.add(
-                new ProcessItem(BitmapFactory.decodeResource(getResources(), R.drawable.awalak), getString(R.string.functionFix))
+                new ProcessItem(readBitmapFromResource(getResources(), R.drawable.awalak,1000,1000), getString(R.string.functionFix))
         );
 
         processItems.add(
-                new ProcessItem(BitmapFactory.decodeResource(getResources(), R.drawable.dragon), getString(R.string.functionBilateral))
+                new ProcessItem(readBitmapFromResource(getResources(), R.drawable.dragon,1000,1000), getString(R.string.functionBilateral))
         );
 
         processItems.add(
-                new ProcessItem(BitmapFactory.decodeResource(getResources(), R.drawable.roach), getString(R.string.functionMedian))
+                new ProcessItem(readBitmapFromResource(getResources(), R.drawable.roach,1000,1000), getString(R.string.functionMedian))
         );
 
         processItems.add(
-                new ProcessItem(BitmapFactory.decodeResource(getResources(), R.drawable.sera), getString(R.string.functionGraying))
+                new ProcessItem(readBitmapFromResource(getResources(), R.drawable.sera,1000,1000), getString(R.string.functionGraying))
         );
     }
 
@@ -470,7 +493,30 @@ public class ProcessActivity extends AppCompatActivity {
             ContentResolver contentResolver = this.getContentResolver();
 
             try {
-                bitmapOriginal = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
+                //Bitmap OOM(OutOfMemory) Crash
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(contentResolver.openInputStream(uri), null, options);
+                float srcWidth = options.outWidth;
+                float srcHeight = options.outHeight;
+                int inSampleSize = 1;
+                /*if (srcWidth > 1000 || srcHeight > 1000) {
+                    while (Math.max(srcWidth / inSample, srcHeight / inSample) > 1000) {
+                        inSample *= 2;
+                    }
+                }*/
+                if (srcWidth > 1000 || srcHeight > 1000){
+                    if (srcWidth > srcHeight) {
+                        inSampleSize = Math.round(srcHeight / 1000);
+                    } else {
+                        inSampleSize = Math.round(srcWidth / 1000);
+                    }
+                }
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = inSampleSize;
+                //options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                bitmapOriginal = BitmapFactory.decodeStream(contentResolver.openInputStream(uri), null, options);
                 bitmapDone = Bitmap.createBitmap(bitmapOriginal);
                 //binding.imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 //thread.interrupt();//重新选择前销毁之前的线程
@@ -598,7 +644,7 @@ class ProcessRecycleViewAdapter extends RecyclerView.Adapter<ProcessRecycleViewA
         holder.CardImageView.setImageBitmap(list.getCardImage());
         holder.CardTextTitleView.setText(list.getCardTextTitle());
 
-        Log.d("ppp", String.valueOf(position));
+        //Log.d("ppp", String.valueOf(position));
         //点击效果
         if (position == getThisPosition()) {
             //holder.itemView.setAlpha(0.7f);
